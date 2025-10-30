@@ -16,7 +16,20 @@ class Matrix {
     double& operator()(size_t r, size_t c);
     std::slice_array<double> operator[](size_t row);
     std::slice_array<double> column(size_t col);
-    size_t row_size();
-    size_t col_size();
-    size_t size();
+    size_t row_size() const;
+    size_t col_size() const;
+    size_t size() const;
+
+    // Matrix ops
+    Matrix& operator+=(const Matrix& rhs);
+    friend Matrix operator+(Matrix& lhs, const Matrix& rhs);
+
+    Matrix& operator-=(const Matrix& rhs);
+    friend Matrix operator-(Matrix& lhs, const Matrix& rhs);
+
+    Matrix& operator*=(const Matrix& rhs);
+    friend Matrix operator*(Matrix& lhs, const Matrix& rhs);
+
+    Matrix& operator*=(double scalar);
+    friend Matrix operator*(Matrix& lhs, double scalar);
 };
