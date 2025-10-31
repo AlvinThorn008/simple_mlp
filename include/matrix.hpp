@@ -1,21 +1,24 @@
 #pragma once
 
-#include <valarray>
+#include <span>
+#include <memory>
+#include <vector>
 #include <initializer_list>
 
 class Matrix {
-    std::valarray<double> _data;
+    std::vector<double> _data;
     size_t rows;
     size_t cols;
+    size_t length;
 
     public:
+    // Matrix(const Matrix& matrix);
     explicit Matrix(size_t rows, size_t cols);
     Matrix(size_t rows, std::initializer_list<double> init);
     Matrix(double val, size_t rows, size_t cols);
     
-    double& operator()(size_t r, size_t c);
-    std::slice_array<double> operator[](size_t row);
-    std::slice_array<double> column(size_t col);
+    std::span<const double> operator[](size_t row) const;
+    std::span<double> operator[](size_t row);
     size_t row_size() const;
     size_t col_size() const;
     size_t size() const;
@@ -32,4 +35,6 @@ class Matrix {
 
     Matrix& operator*=(double scalar);
     friend Matrix operator*(Matrix& lhs, double scalar);
+
+    Matrix& operator=(const Matrix& other);
 };
