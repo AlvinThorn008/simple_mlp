@@ -12,7 +12,6 @@ class Matrix {
     public:
     explicit Matrix(size_t rows, size_t cols);
     Matrix(size_t cols, std::initializer_list<double> init);
-    Matrix(std::initializer_list<double> init); // Column vec ctor
     Matrix(double val, size_t rows, size_t cols);
     
     std::span<const double> operator[](size_t row) const;
