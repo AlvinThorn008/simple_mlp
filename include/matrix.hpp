@@ -6,8 +6,12 @@
 #include <initializer_list>
 
 class Matrix {
-    std::vector<double> _data;
+    // Constructor initializer lists are initialized in the order defined
+    // in the class 
+    // e.g. Matrix(...) : length(3), _data(length) would pass an uninitialized `length`
+    // were `std::vector<double> _data` to be declared before `size_t length`
     size_t rows, cols, length;
+    std::vector<double> _data;
 
     public:
     explicit Matrix(size_t rows, size_t cols);
@@ -32,4 +36,7 @@ class Matrix {
 
     Matrix& operator*=(double scalar);
     friend Matrix operator*(Matrix& lhs, double scalar);
+
 };
+
+void print_mat(const Matrix& mat);

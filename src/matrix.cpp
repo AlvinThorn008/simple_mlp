@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 #include <cassert>
 #include <algorithm>
+#include <stdio.h>
 
 Matrix::Matrix(size_t rows, size_t cols) 
     : rows(rows), cols(cols), length(rows * cols), 
@@ -59,6 +60,7 @@ Matrix operator*(Matrix& lhs, double scalar) {
 
 Matrix& Matrix::operator*=(const Matrix& rhs) {
     *this = (*this * rhs);
+    return *this;
 }
 
 Matrix operator*(Matrix& lhs, const Matrix& rhs) {
@@ -76,5 +78,20 @@ Matrix operator*(Matrix& lhs, const Matrix& rhs) {
             result_row[col] = sum;
         }
     }
+    return result;
+}
 
+void print_mat(const Matrix& mat) {
+    if (mat.size() == 0) { printf("[]\n"); return; }
+    printf("[\n");
+    for (size_t r = 0; r < mat.row_size(); r++) {
+        auto row = mat[r];
+        auto tail = row.subspan(1);
+        printf("  %-6.2lf", row[0]);
+        for (double val: tail) {
+            printf("  %-6.2lf", val);
+        }
+        printf("\n");
+    }
+    printf("]\n");
 }
