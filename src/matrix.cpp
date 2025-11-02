@@ -16,6 +16,10 @@ Matrix::Matrix(size_t cols, std::initializer_list<double> init)
     assert(init.size() % cols == 0 && "initializer list size must be multiple of cols");
 }
 
+Matrix::Matrix(std::initializer_list<double> init)
+    : rows(1), cols(init.size()), length(init.size()),
+    _data(init) {}
+
 std::span<double> Matrix::operator[](size_t row) {
     return std::span(_data.begin() + cols * row, cols);
 }
