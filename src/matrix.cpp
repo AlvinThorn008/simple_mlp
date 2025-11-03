@@ -25,16 +25,36 @@ std::span<const double> Matrix::operator[](size_t row) const {
     return std::span(_data.begin() + cols * row, cols);
 }
 
-size_t Matrix::row_size() const { return rows; }
-size_t Matrix::col_size() const { return cols; }
+std::span<double> Matrix::data() { return _data; }
+
+std::span<const double> Matrix::data() const { return _data; }
+
+size_t Matrix::row_count() const { return rows; }
+size_t Matrix::col_count() const { return cols; }
 size_t Matrix::size() const { return length; }
+
+Matrix transpose(Matrix mat) {
+    Matrix res(mat.cols, mat.rows);
+
+    for (size_t i = 0; i < mat.cols; i++)
+        for (size_t j = 0; j < mat.rows; j++)
+            res[i][j] = mat[j][i];
+
+    return res;
+}
+
+Matrix hadamard(Matrix lhs, const Matrix& rhs) {
+    assert(lhs.rows == rhs.rows && rhs.cols == rhs.cols && "Hadamard requires matrix dimensions to be the same");
+    for (size_t i = 0; i < lhs.size(); i++) lhs._data[i] *= rhs._data[i];
+    return Matrix(lhs);
+}
 
 Matrix& Matrix::operator+=(const Matrix& rhs) {
     assert(rows == rhs.rows && cols == rhs.cols);
     for (size_t i = 0; i < length; i++) _data[i] += rhs._data[i];
     return *this;
 }
-Matrix operator+(Matrix& lhs, const Matrix& rhs) {
+Matrix operator+(Matrix lhs, const Matrix& rhs) {
     lhs += rhs;
     return Matrix(lhs);
 }
@@ -44,7 +64,7 @@ Matrix& Matrix::operator-=(const Matrix& rhs) {
     for (size_t i = 0; i < length; i++) _data[i] -= rhs._data[i];
     return *this;
 }
-Matrix operator-(Matrix& lhs, const Matrix& rhs) {
+Matrix operator-(Matrix lhs, const Matrix& rhs) {
     lhs -= rhs;
     return Matrix(lhs);
 }
@@ -53,7 +73,7 @@ Matrix& Matrix::operator*=(double scalar) {
     for (size_t i = 0; i < length; i++) _data[i] *= scalar;
     return *this;
 }
-Matrix operator*(Matrix& lhs, double scalar) {
+Matrix operator*(Matrix lhs, double scalar) {
     lhs *= scalar;
     return Matrix(lhs);
 }
@@ -63,7 +83,7 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
     return *this;
 }
 
-Matrix operator*(Matrix& lhs, const Matrix& rhs) {
+Matrix operator*(const Matrix lhs, const Matrix& rhs) {
     assert(lhs.cols == rhs.rows);
     Matrix result(lhs.rows, rhs.cols);
 
@@ -81,10 +101,19 @@ Matrix operator*(Matrix& lhs, const Matrix& rhs) {
     return result;
 }
 
+Matrix& Matrix::add_col(const Matrix& rhs) {
+    assert(rhs.cols == 1 && "add_col expects column vector");
+    for (size_t i = 0; i < rows; i++) {
+        double val = rhs._data[i];
+        for (size_t j = 0; j < cols; j++) (*this).operator[](i)[j] += val;
+    }
+    return (*this);
+}
+
 void print_mat(const Matrix& mat) {
     if (mat.size() == 0) { printf("[]\n"); return; }
     printf("[\n");
-    for (size_t r = 0; r < mat.row_size(); r++) {
+    for (size_t r = 0; r < mat.row_count(); r++) {
         auto row = mat[r];
         auto tail = row.subspan(1);
         printf("  %-6.2lf", row[0]);

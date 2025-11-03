@@ -20,22 +20,32 @@ class Matrix {
     
     std::span<const double> operator[](size_t row) const;
     std::span<double> operator[](size_t row);
-    size_t row_size() const;
-    size_t col_size() const;
+    std::span<const double> data() const;
+    std::span<double> data();
+    size_t row_count() const;
+    size_t col_count() const;
     size_t size() const;
 
     // Matrix ops
+
+    friend Matrix transpose(Matrix mat);
+
+    friend Matrix hadamard(Matrix lhs, const Matrix& rhs);
+
     Matrix& operator+=(const Matrix& rhs);
-    friend Matrix operator+(Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator+(Matrix lhs, const Matrix& rhs);
 
     Matrix& operator-=(const Matrix& rhs);
-    friend Matrix operator-(Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator-(Matrix lhs, const Matrix& rhs);
 
     Matrix& operator*=(const Matrix& rhs);
-    friend Matrix operator*(Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator*(Matrix lhs, const Matrix& rhs);
 
     Matrix& operator*=(double scalar);
-    friend Matrix operator*(Matrix& lhs, double scalar);
+    friend Matrix operator*(Matrix lhs, double scalar);
+
+    // Specialized matrix ops
+    Matrix& add_col(const Matrix& rhs);
 
 };
 

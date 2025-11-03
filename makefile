@@ -1,6 +1,6 @@
 SHELL := sh
 CXX := g++
-CXXFLAGS := -std=c++20 -O2 -Iinclude -MMD -MP -Wall -Wextra
+CXXFLAGS := -std=c++20 -g3 -Iinclude -MMD -MP -Wall -Wextra
 
 SRC_DIR := src
 BUILD_DIR := build
