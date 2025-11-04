@@ -13,7 +13,7 @@ Matrix decode(ANN& network, unsigned int input) {
 }
 
 int main() {
-    ANN network{4, 8, 8, 16};
+    ANN network{4, 8, 16};
 
     std::vector<std::tuple<Matrix, Matrix>> training_data;
     training_data.reserve(16);
@@ -27,7 +27,7 @@ int main() {
         // print_mat(mat);
     }
 
-    network.sgd(1000, training_data, 0.45);
+    network.sgd(1000, training_data, 2.67);
     for (unsigned int i = 0; i < 16; i++) {
         printf("Input = %u\n", i);
         Matrix output = decode(network, i);
