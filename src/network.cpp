@@ -130,9 +130,9 @@ namespace nn_utils {
         assert(y1.row_count() == y2.row_count() && (y1.col_count() == 1) && "cross_entropy expects a column vector");
         
         double sum = 0.0;
-        for (size_t i = 0; i < y1.row_count(); i++) sum += y2.data()[i] * log(y1.data()[i]);
+        for (size_t i = 0; i < y1.row_count(); i++) sum -= y2.data()[i] * log(y1.data()[i]);
     
-        return -sum;
+        return sum;
     }
 
     double squared_error(const Matrix& y1, const Matrix& y2) {

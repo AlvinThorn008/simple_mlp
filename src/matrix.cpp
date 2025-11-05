@@ -36,8 +36,8 @@ size_t Matrix::size() const { return length; }
 Matrix transpose(Matrix mat) {
     Matrix res(mat.cols, mat.rows);
 
-    for (size_t i = 0; i < mat.cols; i++)
-        for (size_t j = 0; j < mat.rows; j++)
+    for (size_t j = 0; j < mat.rows; j++)
+        for (size_t i = 0; i < mat.cols; i++)
             res[i][j] = mat[j][i];
 
     return res;
@@ -116,11 +116,14 @@ void print_mat(const Matrix& mat) {
     for (size_t r = 0; r < mat.row_count(); r++) {
         auto row = mat[r];
         auto tail = row.subspan(1);
-        printf("  %-6.2lf", row[0]);
+        printf("  %-4.2lf", row[0]);
         for (double val: tail) {
-            printf("  %-6.2lf", val);
+            printf("  %-4.2lf", val);
         }
         printf("\n");
     }
     printf("]\n");
 }
+
+
+// Kernels

@@ -27,7 +27,7 @@ int main() {
         // print_mat(mat);
     }
 
-    network.sgd(1000, training_data, 2.67);
+    network.sgd(1000, training_data, 4.36);
     for (unsigned int i = 0; i < 16; i++) {
         printf("Input = %u\n", i);
         Matrix output = decode(network, i);
