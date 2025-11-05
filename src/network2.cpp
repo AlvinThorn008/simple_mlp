@@ -33,12 +33,12 @@ void Network::backward_prop(Matrix target) {
     Matrix grad = (*this.*output_err)(target);
     deltas[l].bias = grad;
     
-    deltas[l].weights = grad * transpose(activations[l]);
+    deltas[l].weights = mmrt(grad, activations[l]);
 
     while ((--l) >= 0) {
         grad = hadamard(layers[l].diff_activation(z_values[l+1]), transpose(layers[l+1].params.weights) * grad); 
         deltas[l].bias = grad;
-        deltas[l].weights = grad * transpose(activations[l]);
+        deltas[l].weights = mmrt(grad, activations[l]);
     }
 }
 

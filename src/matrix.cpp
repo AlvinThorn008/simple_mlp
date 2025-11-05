@@ -83,7 +83,7 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
     return *this;
 }
 
-Matrix operator*(const Matrix lhs, const Matrix& rhs) {
+Matrix operator*(const Matrix& lhs, const Matrix& rhs) {
     assert(lhs.cols == rhs.rows);
     Matrix result(lhs.rows, rhs.cols);
 
@@ -100,6 +100,26 @@ Matrix operator*(const Matrix lhs, const Matrix& rhs) {
     }
     return result;
 }
+
+Matrix mmrt(const Matrix& lhs, const Matrix& rhs) {
+    assert(lhs.cols == rhs.cols);
+    Matrix result(lhs.rows, rhs.rows);
+
+    for (size_t row = 0; row < lhs.rows; row++) {
+        auto result_row = result[row];
+        auto left_row = lhs[row];
+        for (size_t row2 = 0; row2 < rhs.rows; row2++) {
+            double sum = 0;
+            auto right_row = rhs[row2];
+            for (size_t k = 0; k < rhs.cols; k++) {
+                sum += left_row[k] * right_row[k];
+            }
+            result_row[row2] = sum;
+        }
+    }
+    return result;
+}
+
 
 Matrix& Matrix::add_col(const Matrix& rhs) {
     assert(rhs.cols == 1 && "add_col expects column vector");

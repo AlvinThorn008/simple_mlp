@@ -39,13 +39,17 @@ class Matrix {
     friend Matrix operator-(Matrix lhs, const Matrix& rhs);
 
     Matrix& operator*=(const Matrix& rhs);
-    friend Matrix operator*(Matrix lhs, const Matrix& rhs);
+    friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
 
     Matrix& operator*=(double scalar);
     friend Matrix operator*(Matrix lhs, double scalar);
 
-    // Specialized matrix ops
+    /* Specialized matrix ops */
+
     Matrix& add_col(const Matrix& rhs);
+
+    // Matrix multiply right transpose
+    friend Matrix mmrt(const Matrix& lhs, const Matrix& rhs);
 
 };
 
