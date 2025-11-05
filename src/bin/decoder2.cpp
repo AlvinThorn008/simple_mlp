@@ -40,8 +40,8 @@ int main() {
     std::vector<std::pair<const Matrix, const Matrix>> training_data;
     training_data.reserve(16);
     for (int i = 0; i < 16; i++) {
-        Matrix mat(0.0, 4, 1);
-        Matrix out(0.0, 16, 1);
+        Matrix mat(0.0, 4, 1); // Input
+        Matrix out(0.0, 16, 1); // Output
         // int to 4-bit binary double vector e.g. 3 -> [0.0, 0.0, 1.0, 1.0]
         for (int j = 3; j >= 0; j--) mat.data()[3 - j] = (double)((i >> j) & 1);
         out.data()[i] = 1.0;
