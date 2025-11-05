@@ -25,6 +25,8 @@ int main() {
     print_mat(mul);
     a += b;
     print_mat(a);
+    auto mul3 = mmrt(a, b);
+    print_mat(mul3);
 
     return 0;
 }
