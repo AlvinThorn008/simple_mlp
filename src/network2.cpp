@@ -5,7 +5,7 @@
 #include <utility>
 #include <functions.hpp>
 
-#define NN_DIAG
+// #define NN_DIAG
 
 
 LayerParams::LayerParams(size_t input_size, size_t output_size) 
