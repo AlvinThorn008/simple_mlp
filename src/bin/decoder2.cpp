@@ -48,7 +48,7 @@ int main() {
         training_data.push_back({mat, out});
     }
 
-    network.train(50, training_data, 3.27);
+    network.train(50, training_data, 3.35);
     for (unsigned int i = 0; i < 16; i++) {
         printf("Input = %u\n", i);
         Matrix output = decode(network, i); // Decode network output for i
